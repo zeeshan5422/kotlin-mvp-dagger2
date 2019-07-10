@@ -15,15 +15,16 @@ import com.ogulcan.android.mvp.app.R
 abstract class SwipeToDelete(context: Context): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete24)
-    private val intrinsicWidth = deleteIcon.intrinsicWidth
-    private val intrinsicHeight = deleteIcon.intrinsicHeight
+    private val intrinsicWidth = deleteIcon?.intrinsicWidth
+    private val intrinsicHeight = deleteIcon?.intrinsicHeight
 
-    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
         // No need to implement drag & drop
     }
 
-    override fun onChildDraw(c: Canvas?, recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                             dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         val itemView = viewHolder!!.itemView
         val itemHeight = itemView.bottom - itemView.top
 
@@ -32,14 +33,14 @@ abstract class SwipeToDelete(context: Context): ItemTouchHelper.SimpleCallback(0
         background.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
         background.draw(c)
 
-        val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
-        val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
-        val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+        val deleteIconTop = itemView.top + (itemHeight - this!!.intrinsicHeight as Int) / 2
+        val deleteIconMargin = (itemHeight - this!!.intrinsicHeight as Int) / 2
+        val deleteIconLeft = itemView.right - deleteIconMargin - this!!.intrinsicWidth  as Int
         val deleteIconRight = itemView.right - deleteIconMargin
-        val deleteIconBottom = deleteIconTop + intrinsicHeight
+        val deleteIconBottom = deleteIconTop + this!!.intrinsicHeight  as Int
 
-        deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
-        deleteIcon.draw(c)
+        deleteIcon?.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+        deleteIcon?.draw(c)
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }

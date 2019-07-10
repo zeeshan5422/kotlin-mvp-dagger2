@@ -1,6 +1,7 @@
 package com.ogulcan.android.mvp.app.ui.list
 
-import com.ogulcan.android.mvp.app.api.ApiServiceInterface
+import com.ogulcan.android.mvp.app.data.api.ApiServiceInterface
+import com.ogulcan.android.mvp.app.data.db.MyDB
 import com.ogulcan.android.mvp.app.models.Album
 import com.ogulcan.android.mvp.app.models.DetailsViewModel
 import com.ogulcan.android.mvp.app.models.Post
@@ -14,7 +15,9 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class ListPresenter: ListContract.Presenter {
+
+// If you need data base at Presenter level
+class ListPresenter constructor(private val myDb: MyDB): ListContract.Presenter {
 
     private val subscriptions = CompositeDisposable()
     private val api: ApiServiceInterface = ApiServiceInterface.create()
@@ -30,6 +33,9 @@ class ListPresenter: ListContract.Presenter {
 
     override fun attach(view: ListContract.View) {
         this.view = view
+
+        myDb.myDbDao().getZone()
+
     }
 
     override fun loadData() {

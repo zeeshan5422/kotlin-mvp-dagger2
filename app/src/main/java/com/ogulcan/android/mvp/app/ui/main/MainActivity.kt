@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.ogulcan.android.mvp.app.BaseApp
 import com.ogulcan.android.mvp.app.R
+import com.ogulcan.android.mvp.app.data.db.MyDB
+import com.ogulcan.android.mvp.app.di.component.ActivityComponent
 import com.ogulcan.android.mvp.app.di.component.DaggerActivityComponent
 import com.ogulcan.android.mvp.app.di.module.ActivityModule
 import com.ogulcan.android.mvp.app.ui.about.AboutFragment
@@ -14,9 +17,16 @@ import javax.inject.Inject
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class MainActivity: AppCompatActivity(), MainContract.View {
+class MainActivity : AppCompatActivity(), MainContract.View {
 
-    @Inject lateinit var presenter: MainContract.Presenter
+    @Inject
+    lateinit var presenter: MainContract.Presenter
+
+    lateinit var activityComponent : ActivityComponent
+
+    // If you need data base at Activity level
+    @Inject
+    lateinit var myDb: MyDB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +34,8 @@ class MainActivity: AppCompatActivity(), MainContract.View {
         injectDependency()
 
         presenter.attach(this)
+
+//        myDb.myDbDao().getZone()
     }
 
     override fun onResume() {
@@ -57,7 +69,7 @@ class MainActivity: AppCompatActivity(), MainContract.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item!!.itemId) {
+        when (item!!.itemId) {
             R.id.nav_item_info -> {
                 presenter.onDrawerOptionAboutClick()
                 return true
@@ -82,8 +94,9 @@ class MainActivity: AppCompatActivity(), MainContract.View {
     }
 
     private fun injectDependency() {
-        val activityComponent = DaggerActivityComponent.builder()
+        activityComponent = DaggerActivityComponent.builder()
                 .activityModule(ActivityModule(this))
+                .applicationComponent(BaseApp.get(this).getApplicationComponent())
                 .build()
 
         activityComponent.inject(this)
@@ -98,7 +111,7 @@ class MainActivity: AppCompatActivity(), MainContract.View {
         FADE;
 
         fun getAnimPair(): Pair<Int, Int> {
-            when(this) {
+            when (this) {
                 SLIDE -> return Pair(R.anim.slide_left, R.anim.slide_right)
                 FADE -> return Pair(R.anim.fade_in, R.anim.fade_out)
             }

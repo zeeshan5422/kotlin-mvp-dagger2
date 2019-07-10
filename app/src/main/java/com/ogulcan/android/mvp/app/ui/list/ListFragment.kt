@@ -9,11 +9,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.ogulcan.android.mvp.app.R
+import com.ogulcan.android.mvp.app.data.db.MyDB
 import com.ogulcan.android.mvp.app.di.component.DaggerFragmentComponent
 import com.ogulcan.android.mvp.app.di.module.FragmentModule
 import com.ogulcan.android.mvp.app.models.DetailsViewModel
 import com.ogulcan.android.mvp.app.models.Post
+import com.ogulcan.android.mvp.app.ui.main.MainActivity
 import com.ogulcan.android.mvp.app.util.SwipeToDelete
 import kotlinx.android.synthetic.main.fragment_list.*
 import javax.inject.Inject
@@ -27,6 +30,10 @@ class ListFragment: Fragment(), ListContract.View, ListAdapter.onItemClickListen
 
     private lateinit var rootView: View
 
+    // If you need Room data base at Fragment level
+    @Inject
+    lateinit var myDb: MyDB
+
     fun newInstance(): ListFragment {
         return ListFragment()
     }
@@ -36,16 +43,18 @@ class ListFragment: Fragment(), ListContract.View, ListAdapter.onItemClickListen
         injectDependency()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater!!.inflate(R.layout.fragment_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        rootView = inflater.inflate(R.layout.fragment_list, container, false)
         return rootView
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
         presenter.subscribe()
         initView()
+
+        myDb.myDbDao().getZone()
     }
 
     override fun onDestroyView() {
@@ -66,11 +75,12 @@ class ListFragment: Fragment(), ListContract.View, ListAdapter.onItemClickListen
     }
 
     override fun loadDataSuccess(list: List<Post>) {
-        var adapter = ListAdapter(activity, list.toMutableList(), this)
+        var adapter = ListAdapter(context!!, list.toMutableList(), this)
         recyclerView!!.setLayoutManager(LinearLayoutManager(activity))
         recyclerView!!.setAdapter(adapter)
 
-        val swipeHandler = object : SwipeToDelete(activity) {
+        /*val swipeHandler = object : SwipeToDelete(context!!) {
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView.adapter as ListAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
@@ -79,6 +89,7 @@ class ListFragment: Fragment(), ListContract.View, ListAdapter.onItemClickListen
 
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+        */
     }
 
     override fun loadDataAllSuccess(model: DetailsViewModel) {
@@ -86,16 +97,20 @@ class ListFragment: Fragment(), ListContract.View, ListAdapter.onItemClickListen
     }
 
     override fun itemRemoveClick(post: Post) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(context,"TODO : itemRemove not implemented", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun itemDetail(postId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(context,"TODO : itemDetail not implemented", Toast.LENGTH_SHORT).show()
     }
 
     private fun injectDependency() {
         val listComponent = DaggerFragmentComponent.builder()
                 .fragmentModule(FragmentModule())
+                .activityComponent((activity as MainActivity).activityComponent)
                 .build()
 
         listComponent.inject(this)

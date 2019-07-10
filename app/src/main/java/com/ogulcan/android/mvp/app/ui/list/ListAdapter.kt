@@ -28,11 +28,11 @@ class ListAdapter(private val context: Context, private val list: MutableList<Po
         return list.size
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         var post = list[position]
 
         // holder!!.bind(post)
-        holder!!.title!!.setText(post.title)
+        holder.title!!.setText(post.title)
         holder.body!!.setText(post.body)
 
         holder.layout!!.setOnClickListener {
@@ -40,7 +40,7 @@ class ListAdapter(private val context: Context, private val list: MutableList<Po
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false)
         return ListAdapter.ListViewHolder(itemView)
     }

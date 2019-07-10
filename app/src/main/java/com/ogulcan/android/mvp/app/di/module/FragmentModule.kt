@@ -1,6 +1,8 @@
 package com.ogulcan.android.mvp.app.di.module
 
-import com.ogulcan.android.mvp.app.api.ApiServiceInterface
+import com.ogulcan.android.mvp.app.data.api.ApiServiceInterface
+import com.ogulcan.android.mvp.app.data.db.MyDB
+import com.ogulcan.android.mvp.app.di.scope.PerFragment
 import com.ogulcan.android.mvp.app.ui.about.AboutContract
 import com.ogulcan.android.mvp.app.ui.about.AboutPresenter
 import com.ogulcan.android.mvp.app.ui.list.ListContract
@@ -15,16 +17,19 @@ import dagger.Provides
 class FragmentModule {
 
     @Provides
+    @PerFragment
     fun provideAboutPresenter(): AboutContract.Presenter {
         return AboutPresenter()
     }
 
     @Provides
-    fun provideListPresenter(): ListContract.Presenter {
-        return ListPresenter()
+    @PerFragment
+    fun provideListPresenter(myDb: MyDB): ListContract.Presenter {
+        return ListPresenter(myDb)
     }
 
     @Provides
+    @PerFragment
     fun provideApiService(): ApiServiceInterface {
         return ApiServiceInterface.create()
     }

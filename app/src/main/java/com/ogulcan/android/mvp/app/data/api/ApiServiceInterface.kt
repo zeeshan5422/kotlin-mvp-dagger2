@@ -1,4 +1,4 @@
-package com.ogulcan.android.mvp.app.api
+package com.ogulcan.android.mvp.app.data.api
 
 import com.ogulcan.android.mvp.app.models.Album
 import com.ogulcan.android.mvp.app.models.Post
