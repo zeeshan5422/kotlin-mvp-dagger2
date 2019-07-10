@@ -1,6 +1,6 @@
 # Sample App: Kotlin-MVP-Dagger2
 
-<a href="https://medium.com/@ogulcan/kotlin-mvp-dagger-2-retrofit-sample-android-application-e6fe3af7acd" target="_blank"><img src="https://cdn-images-1.medium.com/max/2000/1*Ia4dK-kcaSfztzHIhtMmaQ.png" alt="Kotlin + MVP + Dagger + Retrofit + RxJava2" width="800"></a>
+<a href="https://medium.com/@ogulcan/kotlin-mvp-dagger-2-retrofit-sample-android-application-e6fe3af7acd" target="_blank"><img src="https://github.com/zeeshan5422/kotlin-mvp-dagger2/blob/master/screenshots/Room%2Bkotlin.png" alt="Kotlin + MVP + Dagger + Room + Retrofit + RxJava2" width="800"></a>
 
 Kotlin’s popularity is growing day by day. Many  libraries, documents and other resources have already published with Kotlin. We may check the list with a simple search of ’awesome Kotlin’.
 
