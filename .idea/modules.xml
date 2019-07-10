@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/kotlin-mvp-dagger2.iml" filepath="$PROJECT_DIR$/kotlin-mvp-dagger2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kotlin_mvp_retrofit_room_rx.iml" filepath="$PROJECT_DIR$/.idea/kotlin_mvp_retrofit_room_rx.iml" />
     </modules>
   </component>
 </project>
